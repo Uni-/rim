@@ -1,0 +1,11 @@
+[package]
+name = "rim"
+version = "0.1.0"
+authors = ["Eon Jeong <administrator@korea.ac.kr>"]
+
+description = "The conflictful configuration management system"
+keywords = ["version control", "revision control", "source control", "configuration management", "software configuration management", "scm"]
+readme = "README.md"
+
+[dependencies]
+rust-crypto = "*"
