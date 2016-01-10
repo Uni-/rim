@@ -1,25 +1,13 @@
+use std::env;
+
 extern crate crypto;
 
-use std::fs::File;
-use std::io::*;
-use std::env;
-use crypto::sha1::Sha1;
-use crypto::digest::Digest;
-
-fn hash_file(filename: &String) -> Result<String> {
-	const buffer_sz: usize = 0x10000usize;
-	let mut file = try!(File::open(filename));
-	let mut buffer: [u8; buffer_sz] = [0u8; buffer_sz];
-	let mut sh = Sha1::new();
-	loop {
-		let count = try!(file.read(&mut buffer));
-		if count == 0 {
-			break;
-		}
-		sh.input(&buffer);
-	}
-	Ok(sh.result_str())
+pub mod fs {
+	pub mod blob;
+	pub mod tree;
 }
+use fs::tree::*;
+use fs::blob::*;
 
 fn main() {
 	let mut args = env::args();
@@ -41,4 +29,10 @@ fn main() {
 			}
 		}
 	}
+	let wd_contents = scan_wd();
+	let wd_count = wd_contents.len();
+	for path in wd_contents {
+		println!("{}", path);
+	}
+	println!("{} files and folders found. done.", wd_count);
 }
